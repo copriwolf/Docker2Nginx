@@ -1,0 +1,17 @@
+version: '3.5'
+services:
+  nginx_lb:
+    container_name: nginx_lb
+    image: nginx:alpine
+    ports:
+     - "80:80"
+     - "80:80/udp"
+    volumes:
+     - ./nginx/nginx.conf:/etc/nginx/templates/nginx.conf.template:ro # Nginx 配置映射
+     - ./nginx/logs/nginx:/var/log/nginx            # Nginx 日志目录
+     - ./nginx/html:/usr/share/nginx/html           # Nginx 文件目录
+    environment:
+      API_HOST: {{域名}}
+      API_PORT: {{端口，比如80}}
+      # 其他的 Nginx 变量
+    restart: unless-stopped
